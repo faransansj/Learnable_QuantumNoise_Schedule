@@ -1,0 +1,16 @@
+experiment: schedule_linear
+dataset: clustered
+seed: 42
+dataset_size: 100
+T: 6
+schedule: linear
+n_ancilla: 2
+depth: 4
+ancilla: haar
+loss: wasserstein
+epochs: 2001
+learning_rate: 0.005
+gamma: 1.0
+init: normal
+device: auto
+output_root: outputs

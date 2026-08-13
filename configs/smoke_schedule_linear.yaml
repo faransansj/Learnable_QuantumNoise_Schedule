@@ -1,0 +1,17 @@
+experiment: smoke_schedule_linear
+paper_scale: false
+dataset: clustered
+seed: 7
+dataset_size: 6
+T: 2
+schedule: linear
+n_ancilla: 1
+depth: 1
+ancilla: haar
+loss: mmd
+epochs: 2
+learning_rate: 0.02
+gamma: 1.0
+init: normal
+device: cpu
+output_root: outputs
