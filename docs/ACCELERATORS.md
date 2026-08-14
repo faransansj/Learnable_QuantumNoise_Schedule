@@ -4,7 +4,7 @@
 |---|---|---|---|
 | CPU | `cpu` | float64 / complex128 | tested |
 | NVIDIA | `cuda` | float64 / complex128 | conditional test; unavailable on this machine |
-| Intel Arc | `xpu` | float32 / complex64 | conditional test; unavailable on this machine |
+| Intel Arc | `xpu` | float32 / complex64 | Arc B580 smoke-tested |
 | Apple Silicon | `mps` | float32 / complex64 | tested when available |
 
 `device: auto` selects CUDA, then XPU, then MPS, then CPU. Intel support uses native PyTorch XPU; Intel Extension for PyTorch (IPEX) is neither installed nor required.
@@ -43,4 +43,4 @@ Arc uses float32/complex64 because Arc A-series lacks native FP64. Results are l
 
 ## Hybrid execution
 
-The density-matrix circuit, differentiable loss, model parameters, and learnable schedule stay on the selected accelerator. Deterministic dataset/Haar RNG, categorical measurement sampling, POT's detached transport-plan solve, and detached eigendecomposition diagnostics intentionally use CPU. This machine has no CUDA/XPU device, so real hardware tests remain conditional and no Arc performance or correctness claim is made beyond code-path tests.
+The density-matrix circuit, differentiable loss, model parameters, and learnable schedule stay on the selected accelerator. Deterministic dataset/Haar RNG, categorical measurement sampling, POT's detached transport-plan solve, and detached eigendecomposition diagnostics intentionally use CPU. Intel Arc B580 validation used PyTorch `2.13.0+xpu`: accelerator detection and finite complex matmul passed, the full suite reported 21 passed and 2 unavailable-backend skips, and the `smoke_schedule_learnable_xpu` train/evaluate flow completed with valid density matrices. This is smoke evidence, not a paper-scale performance or reproduction claim.
