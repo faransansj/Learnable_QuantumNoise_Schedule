@@ -11,6 +11,7 @@ depth: 4
 ancilla: haar
 loss: wasserstein
 epochs: 2001  # ASSUMPTION: official CLI default, not reported per-task by paper.
+progress_every: 100
 learning_rate: 0.005  # ASSUMPTION: official CLI default.
 gamma: 1.0  # ASSUMPTION: no effective decay; paper decay factor/cadence unknown.
 init: normal

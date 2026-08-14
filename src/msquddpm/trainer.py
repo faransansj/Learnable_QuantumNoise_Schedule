@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import time
 
 import pandas as pd
 import torch
@@ -36,6 +37,7 @@ def train_greedy(
     schedule=None,
     schedule_lr: float | None = None,
     smoothness_weight: float = 0.0,
+    progress_every: int = 0,
 ) -> TrainResult:
     """Paper T-to-1 greedy training; learnable phi is optimized only at stage T."""
     rows: list[dict] = []
@@ -47,6 +49,8 @@ def train_greedy(
     learnable = schedule is not None and schedule.trainable
     if learnable and model.steps < 2:
         raise ValueError("Learnable schedule requires T >= 2")
+    started = time.monotonic()
+    total_iterations = model.steps * epochs
 
     for t in range(model.steps, 0, -1):
         optimize_schedule = learnable and t == model.steps
@@ -104,6 +108,16 @@ def train_greedy(
                         "q": float(value), "schedule_grad_norm": grad_norm,
                         "schedule_update_magnitude": update, "loss": float(total_loss.detach()),
                     })
+            completed = (model.steps - t) * epochs + epoch + 1
+            if progress_every and (completed == 1 or completed % progress_every == 0 or completed == total_iterations):
+                elapsed = time.monotonic() - started
+                eta = elapsed / completed * (total_iterations - completed)
+                print(
+                    f"progress={100 * completed / total_iterations:6.2f}% "
+                    f"iteration={completed}/{total_iterations} step={t} epoch={epoch + 1}/{epochs} "
+                    f"elapsed={elapsed:.0f}s eta={eta:.0f}s",
+                    flush=True,
+                )
             if epoch % log_every == 0 or epoch == epochs - 1:
                 rows.append({
                     "step": t, "epoch": epoch, "global_epoch": len(rows),

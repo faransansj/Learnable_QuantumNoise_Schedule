@@ -74,7 +74,7 @@ nohup /usr/bin/time -v python scripts/train.py --config configs/1q_clustered.yam
 echo $! > outputs/logs/1q_clustered_cuda.pid
 ```
 
-Generated checkpoints, trajectories, figures, metrics, histories, and logs live under `outputs/` and are intentionally git-ignored. Copy them separately from the server. CUDA currently uses `float64/complex128`; verify that the selected GPU supports efficient FP64 if runtime matters. The POT transport-plan solve and measurement sampling remain CPU-assisted, so additional CPU cores and fast host-device transfers still help.
+Paper configs print periodic `progress`, elapsed time, and ETA lines; redirect stdout to a log and follow it with `tail -f`. Generated checkpoints, trajectories, figures, metrics, histories, and logs live under `outputs/` and are intentionally git-ignored. Copy them separately from the server. CUDA currently uses `float64/complex128`; verify that the selected GPU supports efficient FP64 if runtime matters. The POT transport-plan solve and measurement sampling remain CPU-assisted, so additional CPU cores and fast host-device transfers still help.
 
 ## Intel Arc XPU
 

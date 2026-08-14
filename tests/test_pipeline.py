@@ -118,6 +118,16 @@ def _tiny_config(tmp_path):
     }
 
 
+def test_training_progress_reports_percentage_and_eta(tmp_path, capsys):
+    config = _tiny_config(tmp_path)
+    config["progress_every"] = 1
+    train_experiment(config)
+    output = capsys.readouterr().out
+    assert "progress= 50.00%" in output
+    assert "progress=100.00%" in output
+    assert "eta=" in output
+
+
 def test_end_to_end_training_checkpoint_metrics_and_figures(tmp_path):
     result = train_experiment(_tiny_config(tmp_path))
     assert len(result["history"]) == 2 and np.isfinite(result["history"]["total_loss"]).all()

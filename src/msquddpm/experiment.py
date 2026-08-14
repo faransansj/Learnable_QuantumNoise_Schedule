@@ -65,6 +65,7 @@ def train_experiment(config: dict) -> dict:
         model, forward, int(config["epochs"]), model_lr, config["loss"], float(config.get("gamma", 1.0)),
         schedule=schedule, schedule_lr=float(config.get("schedule_lr", model_lr)),
         smoothness_weight=float(config.get("smoothness_weight", config.get("schedule", {}).get("smoothness_weight", 0.0)) if isinstance(config.get("schedule"), dict) else config.get("smoothness_weight", 0.0)),
+        progress_every=int(config.get("progress_every", 0)),
     )
     if result.forward_trajectory is not None:
         forward = result.forward_trajectory
