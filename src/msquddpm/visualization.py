@@ -102,7 +102,7 @@ def generate_all_figures(
     made.append(output/"11_density_matrix_heatmap.png"); _save(fig,made[-1])
 
     fig,ax=plt.subplots(figsize=(7,4))
-    # MPS has no Hermitian eigensolver; this is detached diagnostic work.
+    # Detached CPU eigendecomposition keeps diagnostics accelerator-independent.
     fe=torch.stack([torch.linalg.eigvalsh(forward.get_state(t).detach().cpu().to(torch.complex128)).mean(0) for t in steps]).numpy(); re=torch.stack([torch.linalg.eigvalsh(reverse.get_state(t).detach().cpu().to(torch.complex128)).mean(0) for t in steps]).numpy()
     for i in range(fe.shape[1]): ax.plot(steps,fe[:,i],"--o",label=f"Forward λ{i}"); ax.plot(steps,re[:,i],"-^",label=f"Reverse λ{i}")
     ax.set(xlabel="Step",ylabel="Mean eigenvalue"); ax.legend(ncol=2)

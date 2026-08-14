@@ -1,0 +1,22 @@
+experiment: smoke_schedule_learnable_cuda
+paper_scale: false
+dataset: clustered
+seed: 7
+dataset_size: 6
+T: 2
+schedule:
+  type: learnable
+  init: cosine
+  smoothness_weight: 0.0
+schedule_offset: 0.001
+n_ancilla: 1
+depth: 1
+ancilla: haar
+loss: mmd
+epochs: 2
+model_lr: 0.02
+schedule_lr: 0.02
+gamma: 1.0
+init: normal
+device: cuda
+output_root: outputs

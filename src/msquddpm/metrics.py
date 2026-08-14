@@ -13,7 +13,7 @@ def _cpu128(tensor: torch.Tensor) -> torch.Tensor:
 
 
 def trace_distance(rho: torch.Tensor, sigma: torch.Tensor) -> torch.Tensor:
-    # Diagnostic eigendecomposition: detached CPU complex128 because MPS lacks eigh.
+    # Diagnostic eigendecomposition stays on detached CPU complex128 for portability.
     return torch.linalg.eigvalsh(_cpu128(rho) - _cpu128(sigma)).abs().sum(-1) / 2
 
 
