@@ -1,0 +1,1 @@
+step,epoch,global_iteration,timestep,q,schedule_grad_norm,schedule_update_magnitude,loss

@@ -1,0 +1,13 @@
+[2026-08-14T11:15:39+09:00] START job=1/6 1q_clustered_xpu_seed42
+[2026-08-14T11:30:20+09:00] PASS job=1/6 1q_clustered_xpu_seed42 elapsed=881s
+[2026-08-14T11:30:20+09:00] START job=2/6 1q_circular_xpu_seed42
+[2026-08-14T11:52:59+09:00] PASS job=2/6 1q_circular_xpu_seed42 elapsed=1359s
+[2026-08-14T11:52:59+09:00] START job=3/6 1q_clustered_xpu_seed7
+[2026-08-14T12:04:52+09:00] PASS job=3/6 1q_clustered_xpu_seed7 elapsed=713s
+[2026-08-14T12:04:52+09:00] START job=4/6 1q_circular_xpu_seed7
+[2026-08-14T12:27:24+09:00] PASS job=4/6 1q_circular_xpu_seed7 elapsed=1352s
+[2026-08-14T12:27:24+09:00] START job=5/6 1q_clustered_xpu_seed123
+[2026-08-14T12:39:02+09:00] PASS job=5/6 1q_clustered_xpu_seed123 elapsed=698s
+[2026-08-14T12:39:02+09:00] START job=6/6 1q_circular_xpu_seed123
+[2026-08-14T13:01:15+09:00] PASS job=6/6 1q_circular_xpu_seed123 elapsed=1333s
+[2026-08-14T13:01:15+09:00] ALL PASS
