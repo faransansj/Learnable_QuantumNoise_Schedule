@@ -56,8 +56,8 @@ def validate_density_matrix(
         raise ValueError("Density matrices must have shape (..., d, d)")
     low_precision = raw.dtype in (torch.float32, torch.complex64)
     tolerance = (2e-5 if low_precision else precision_for(raw.device).validation_atol) if atol is None else atol
-    # MPS lacks complex Hermitian eigensolvers. Validation is detached by design,
-    # so use CPU complex128 for reliable diagnostics without affecting gradients.
+    # Accelerator complex eigensolver support varies. Validation is detached by
+    # design, so use CPU complex128 without affecting gradients.
     state = raw.detach().cpu().to(torch.complex128)
     hermitian_error = (state - state.mH).abs().amax().item()
     trace_error = (state.diagonal(dim1=-2, dim2=-1).sum(-1).real - 1).abs().amax().item()

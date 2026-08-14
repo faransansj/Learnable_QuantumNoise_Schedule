@@ -11,15 +11,15 @@ uv venv --python /opt/homebrew/bin/python3.11
 uv pip install --python .venv/bin/python -e '.[test]'
 ```
 
-`device: auto` selects CUDA, then Apple MPS, then CPU. CPU/CUDA use `float64/complex128`; MPS uses `float32/complex64`. Circuit evolution and differentiable losses run on the selected accelerator. Reproducible categorical measurement sampling and POT's detached optimal-transport-plan solve are CPU control operations; gradients through the selected Wasserstein cost remain on the accelerator. MPS additionally sends detached eigendecomposition diagnostics to CPU because PyTorch MPS lacks complex Hermitian eigensolvers. MPS validation uses `atol=2e-5` versus `1e-7` at research precision.
+`device: auto` selects CUDA, then Intel XPU, Apple MPS, and CPU. CPU/CUDA use `float64/complex128`; XPU/MPS use `float32/complex64` with `atol=2e-5`. Circuit evolution and differentiable losses run on the selected accelerator. Reproducible RNG/sampling, POT's detached transport-plan solve, and detached eigendecomposition diagnostics are CPU control operations. See [`docs/ACCELERATORS.md`](docs/ACCELERATORS.md) for official CUDA/XPU installation, support scope, and exact smoke commands.
 
 ## CUDA server quick start
 
 The project does not install a CUDA toolkit itself. Use a server/driver-supported PyTorch CUDA wheel, then install this repository without replacing that wheel.
 
 ```bash
-git clone https://github.com/faransansj/CPTP_Few-step_MSQuDDPM.git
-cd CPTP_Few-step_MSQuDDPM
+git clone https://github.com/faransansj/Learnable_QuantumNoise_Schedule.git
+cd Learnable_QuantumNoise_Schedule
 
 # Python 3.11 virtual environment
 python3.11 -m venv .venv
@@ -75,6 +75,20 @@ echo $! > outputs/logs/1q_clustered_cuda.pid
 ```
 
 Generated checkpoints, trajectories, figures, metrics, histories, and logs live under `outputs/` and are intentionally git-ignored. Copy them separately from the server. CUDA currently uses `float64/complex128`; verify that the selected GPU supports efficient FP64 if runtime matters. The POT transport-plan solve and measurement sampling remain CPU-assisted, so additional CPU cores and fast host-device transfers still help.
+
+## Intel Arc XPU
+
+Native PyTorch XPU is supported without IPEX. Install a current Intel driver and wheel, then verify and run the schedule smoke:
+
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/xpu
+pip install -e '.[test]' --no-deps
+python scripts/check_accelerator.py --device xpu
+python scripts/train.py --config configs/smoke_schedule_learnable_xpu.yaml
+python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_xpu.pt --device xpu
+```
+
+Arc runs float32/complex64 without AMP/GradScaler. Full dependency commands, official Arc A/B Linux/Windows scope, and honest validation status are in [`docs/ACCELERATORS.md`](docs/ACCELERATORS.md).
 
 ## Apple Silicon MPS
 

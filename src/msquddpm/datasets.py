@@ -21,8 +21,7 @@ def clustered_states(
     device: str | torch.device = "cpu",
 ) -> torch.Tensor:
     device = torch.device(device); precision = precision_for(device)
-    # Generate on CPU because torch.Generator(device='mps') is unsupported, then
-    # transfer once in the device-selected precision.
+    # Generate deterministically on CPU, then transfer once in accelerator precision.
     generator = torch.Generator().manual_seed(seed)
     c = torch.randn(size, 2, generator=generator, dtype=precision.real)
     psi = torch.stack((torch.ones(size, dtype=precision.real), epsilon * torch.complex(c[:, 0], c[:, 1])), dim=1).to(precision.complex)

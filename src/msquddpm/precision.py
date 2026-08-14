@@ -13,11 +13,11 @@ class Precision:
 
 
 def precision_for(device: str | torch.device) -> Precision:
-    """MPS supports float32/complex64; CPU and CUDA retain research precision."""
+    """Client accelerators use portable precision; CPU/CUDA retain research precision."""
     device = torch.device(device)
     return (
         Precision(torch.float32, torch.complex64, 2e-5)
-        if device.type == "mps"
+        if device.type in ("mps", "xpu")
         else Precision(torch.float64, torch.complex128, 1e-7)
     )
 

@@ -12,7 +12,7 @@ from .trajectory import Trajectory
 
 def _rx(theta: torch.Tensor) -> torch.Tensor:
     c, s = torch.cos(theta / 2), torch.sin(theta / 2)
-    # Explicit complex conversion avoids an MPS scalar-complex stacking bug.
+    # Explicit complex conversion is portable across accelerator backends.
     dtype = precision_for(theta.device).complex
     c = torch.complex(c, torch.zeros_like(c))
     minus_is = torch.complex(torch.zeros_like(s), -s).to(dtype)
@@ -133,7 +133,7 @@ class ReverseMSQuDDPM(nn.Module):
         probabilities = torch.nan_to_num(probabilities.detach(), nan=1 / da, posinf=1 / da, neginf=0.0)
         probabilities /= probabilities.sum(1, keepdim=True).clamp_min(1e-7 if self.precision.real == torch.float32 else 1e-15)
         # CPU categorical sampling is intentional and deterministic; only tiny
-        # probability/outcome tensors cross the boundary, core circuit stays MPS.
+        # probability/outcome tensors cross the boundary, core circuit stays on the accelerator.
         outcomes = torch.multinomial(probabilities.cpu(), 1, generator=rng).squeeze(1).to(rho.device)
         result = torch.stack([blocks[i, :, outcomes[i], :, outcomes[i]] for i in range(batch)])
         normalizer = result.diagonal(dim1=-2, dim2=-1).sum(-1).real.clamp_min(1e-7 if self.precision.real == torch.float32 else 1e-15)

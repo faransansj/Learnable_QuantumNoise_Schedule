@@ -1,6 +1,7 @@
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
@@ -18,6 +19,7 @@ from msquddpm.states import density_to_bloch, purity, validate_density_matrix
 from msquddpm.trajectory import Trajectory, load_trajectory, save_teacher_trajectory, save_trajectory
 from msquddpm.visualization import generate_all_figures
 from msquddpm.trainer import train_greedy
+from msquddpm import utils
 from msquddpm.utils import get_device
 
 
@@ -162,7 +164,8 @@ def test_schedule_terminal_noise_and_metrics():
 @pytest.mark.skipif(not torch.backends.mps.is_available(), reason="MPS unavailable")
 def test_mps_precision_forward_reverse_and_optimizer():
     device = torch.device("mps")
-    assert get_device("auto").type == ("cuda" if torch.cuda.is_available() else "mps")
+    expected = "cuda" if torch.cuda.is_available() else "xpu" if utils._xpu_available() else "mps"
+    assert get_device("auto").type == expected
     precision = precision_for(device)
     states = clustered_states(4, seed=9, device=device)
     forward = ForwardDiffusion(1).diffuse(states)
@@ -182,8 +185,64 @@ def test_mps_precision_forward_reverse_and_optimizer():
     assert validate_density_matrix(reverse.get_state(0))["valid"]
 
 
+def test_device_auto_priority_and_unavailable_xpu(monkeypatch):
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+    monkeypatch.setattr(utils, "_xpu_available", lambda: True)
+    monkeypatch.setattr(torch.backends.mps, "is_available", lambda: True)
+    assert get_device("auto").type == "xpu"
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: True)
+    assert get_device("auto").type == "cuda"
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+    monkeypatch.setattr(utils, "_xpu_available", lambda: False)
+    assert get_device("auto").type == "mps"
+    monkeypatch.setattr(torch.backends.mps, "is_available", lambda: False)
+    assert get_device("auto").type == "cpu"
+    with pytest.raises(RuntimeError, match="XPU wheel"):
+        get_device("xpu")
+
+
+def test_set_seed_calls_xpu_when_available(monkeypatch):
+    called = []
+    monkeypatch.setattr(utils, "_xpu_available", lambda: True)
+    monkeypatch.setattr(torch, "manual_seed", lambda seed: None)
+    monkeypatch.setattr(torch, "xpu", SimpleNamespace(manual_seed_all=lambda seed: called.append(seed)), raising=False)
+    utils.set_seed(123)
+    assert called == [123]
+
+
+def test_xpu_precision_policy():
+    precision = precision_for("xpu")
+    assert precision.real == torch.float32
+    assert precision.complex == torch.complex64
+    assert precision.validation_atol == 2e-5
+
+
+def _learnable_accelerator_smoke(device_type):
+    from msquddpm.schedules import LearnableMonotonicSchedule
+
+    device = torch.device(device_type)
+    precision = precision_for(device)
+    states = clustered_states(4, seed=9, device=device)
+    schedule = LearnableMonotonicSchedule(2, dtype=precision.real, device=device)
+    forward = ForwardDiffusion(2, schedule).diffuse(states)
+    model = ReverseMSQuDDPM(2, n_ancilla=1, depth=1, ancilla="zero", seed=9, device=device)
+    before = schedule().detach().cpu().clone()
+    result = train_greedy(
+        model, forward, epochs=1, learning_rate=0.01, loss_name="mmd",
+        schedule=schedule, schedule_lr=0.02,
+    )
+    assert states.dtype == forward.get_state(1).dtype == precision.complex
+    assert model.theta.dtype == precision.real and model.theta.device.type == device_type
+    assert result.schedule_history.schedule_grad_norm.gt(0).all()
+    assert not torch.equal(before, schedule().detach().cpu())
+    assert all(validate_density_matrix(forward.get_state(t))["valid"] for t in forward.steps)
+
+
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA unavailable")
-def test_cuda_reverse_smoke():
-    model = ReverseMSQuDDPM(1, n_ancilla=1, depth=1, ancilla="zero", seed=1).cuda()
-    mixed = torch.eye(2, dtype=torch.complex128, device="cuda")[None] / 2
-    assert validate_density_matrix(model.reverse_step(mixed, 1).cpu())["valid"]
+def test_cuda_learnable_forward_reverse_optimizer():
+    _learnable_accelerator_smoke("cuda")
+
+
+@pytest.mark.skipif(not utils._xpu_available(), reason="Intel XPU unavailable")
+def test_xpu_learnable_forward_reverse_optimizer():
+    _learnable_accelerator_smoke("xpu")
