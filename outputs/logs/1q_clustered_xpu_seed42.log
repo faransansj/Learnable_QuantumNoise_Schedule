@@ -1,0 +1,138 @@
+progress=  0.01% iteration=1/12006 step=6 epoch=1/2001 elapsed=2s eta=26497s
+progress=  0.83% iteration=100/12006 step=6 epoch=100/2001 elapsed=6s eta=760s
+progress=  1.67% iteration=200/12006 step=6 epoch=200/2001 elapsed=11s eta=632s
+progress=  2.50% iteration=300/12006 step=6 epoch=300/2001 elapsed=15s eta=584s
+progress=  3.33% iteration=400/12006 step=6 epoch=400/2001 elapsed=19s eta=560s
+progress=  4.16% iteration=500/12006 step=6 epoch=500/2001 elapsed=24s eta=543s
+progress=  5.00% iteration=600/12006 step=6 epoch=600/2001 elapsed=28s eta=535s
+progress=  5.83% iteration=700/12006 step=6 epoch=700/2001 elapsed=33s eta=525s
+progress=  6.66% iteration=800/12006 step=6 epoch=800/2001 elapsed=37s eta=518s
+progress=  7.50% iteration=900/12006 step=6 epoch=900/2001 elapsed=41s eta=510s
+progress=  8.33% iteration=1000/12006 step=6 epoch=1000/2001 elapsed=46s eta=501s
+progress=  9.16% iteration=1100/12006 step=6 epoch=1100/2001 elapsed=50s eta=496s
+progress= 10.00% iteration=1200/12006 step=6 epoch=1200/2001 elapsed=54s eta=489s
+progress= 10.83% iteration=1300/12006 step=6 epoch=1300/2001 elapsed=58s eta=481s
+progress= 11.66% iteration=1400/12006 step=6 epoch=1400/2001 elapsed=63s eta=475s
+progress= 12.49% iteration=1500/12006 step=6 epoch=1500/2001 elapsed=67s eta=469s
+progress= 13.33% iteration=1600/12006 step=6 epoch=1600/2001 elapsed=71s eta=464s
+progress= 14.16% iteration=1700/12006 step=6 epoch=1700/2001 elapsed=76s eta=460s
+progress= 14.99% iteration=1800/12006 step=6 epoch=1800/2001 elapsed=80s eta=456s
+progress= 15.83% iteration=1900/12006 step=6 epoch=1900/2001 elapsed=85s eta=451s
+progress= 16.66% iteration=2000/12006 step=6 epoch=2000/2001 elapsed=89s eta=445s
+progress= 17.49% iteration=2100/12006 step=5 epoch=99/2001 elapsed=95s eta=446s
+progress= 18.32% iteration=2200/12006 step=5 epoch=199/2001 elapsed=101s eta=448s
+progress= 19.16% iteration=2300/12006 step=5 epoch=299/2001 elapsed=106s eta=449s
+progress= 19.99% iteration=2400/12006 step=5 epoch=399/2001 elapsed=112s eta=447s
+progress= 20.82% iteration=2500/12006 step=5 epoch=499/2001 elapsed=117s eta=445s
+progress= 21.66% iteration=2600/12006 step=5 epoch=599/2001 elapsed=122s eta=443s
+progress= 22.49% iteration=2700/12006 step=5 epoch=699/2001 elapsed=128s eta=441s
+progress= 23.32% iteration=2800/12006 step=5 epoch=799/2001 elapsed=133s eta=438s
+progress= 24.15% iteration=2900/12006 step=5 epoch=899/2001 elapsed=139s eta=435s
+progress= 24.99% iteration=3000/12006 step=5 epoch=999/2001 elapsed=144s eta=433s
+progress= 25.82% iteration=3100/12006 step=5 epoch=1099/2001 elapsed=150s eta=430s
+progress= 26.65% iteration=3200/12006 step=5 epoch=1199/2001 elapsed=156s eta=428s
+progress= 27.49% iteration=3300/12006 step=5 epoch=1299/2001 elapsed=161s eta=425s
+progress= 28.32% iteration=3400/12006 step=5 epoch=1399/2001 elapsed=167s eta=423s
+progress= 29.15% iteration=3500/12006 step=5 epoch=1499/2001 elapsed=173s eta=420s
+progress= 29.99% iteration=3600/12006 step=5 epoch=1599/2001 elapsed=178s eta=416s
+progress= 30.82% iteration=3700/12006 step=5 epoch=1699/2001 elapsed=184s eta=413s
+progress= 31.65% iteration=3800/12006 step=5 epoch=1799/2001 elapsed=190s eta=409s
+progress= 32.48% iteration=3900/12006 step=5 epoch=1899/2001 elapsed=195s eta=406s
+progress= 33.32% iteration=4000/12006 step=5 epoch=1999/2001 elapsed=201s eta=402s
+progress= 34.15% iteration=4100/12006 step=4 epoch=98/2001 elapsed=208s eta=401s
+progress= 34.98% iteration=4200/12006 step=4 epoch=198/2001 elapsed=215s eta=400s
+progress= 35.82% iteration=4300/12006 step=4 epoch=298/2001 elapsed=222s eta=398s
+progress= 36.65% iteration=4400/12006 step=4 epoch=398/2001 elapsed=229s eta=395s
+progress= 37.48% iteration=4500/12006 step=4 epoch=498/2001 elapsed=236s eta=393s
+progress= 38.31% iteration=4600/12006 step=4 epoch=598/2001 elapsed=242s eta=390s
+progress= 39.15% iteration=4700/12006 step=4 epoch=698/2001 elapsed=249s eta=387s
+progress= 39.98% iteration=4800/12006 step=4 epoch=798/2001 elapsed=256s eta=385s
+progress= 40.81% iteration=4900/12006 step=4 epoch=898/2001 elapsed=263s eta=382s
+progress= 41.65% iteration=5000/12006 step=4 epoch=998/2001 elapsed=271s eta=379s
+progress= 42.48% iteration=5100/12006 step=4 epoch=1098/2001 elapsed=277s eta=376s
+progress= 43.31% iteration=5200/12006 step=4 epoch=1198/2001 elapsed=285s eta=372s
+progress= 44.14% iteration=5300/12006 step=4 epoch=1298/2001 elapsed=291s eta=369s
+progress= 44.98% iteration=5400/12006 step=4 epoch=1398/2001 elapsed=299s eta=365s
+progress= 45.81% iteration=5500/12006 step=4 epoch=1498/2001 elapsed=306s eta=362s
+progress= 46.64% iteration=5600/12006 step=4 epoch=1598/2001 elapsed=313s eta=358s
+progress= 47.48% iteration=5700/12006 step=4 epoch=1698/2001 elapsed=320s eta=354s
+progress= 48.31% iteration=5800/12006 step=4 epoch=1798/2001 elapsed=327s eta=350s
+progress= 49.14% iteration=5900/12006 step=4 epoch=1898/2001 elapsed=334s eta=346s
+progress= 49.98% iteration=6000/12006 step=4 epoch=1998/2001 elapsed=341s eta=342s
+progress= 50.81% iteration=6100/12006 step=3 epoch=97/2001 elapsed=350s eta=339s
+progress= 51.64% iteration=6200/12006 step=3 epoch=197/2001 elapsed=358s eta=335s
+progress= 52.47% iteration=6300/12006 step=3 epoch=297/2001 elapsed=366s eta=332s
+progress= 53.31% iteration=6400/12006 step=3 epoch=397/2001 elapsed=375s eta=328s
+progress= 54.14% iteration=6500/12006 step=3 epoch=497/2001 elapsed=383s eta=324s
+progress= 54.97% iteration=6600/12006 step=3 epoch=597/2001 elapsed=391s eta=321s
+progress= 55.81% iteration=6700/12006 step=3 epoch=697/2001 elapsed=400s eta=316s
+progress= 56.64% iteration=6800/12006 step=3 epoch=797/2001 elapsed=408s eta=312s
+progress= 57.47% iteration=6900/12006 step=3 epoch=897/2001 elapsed=416s eta=308s
+progress= 58.30% iteration=7000/12006 step=3 epoch=997/2001 elapsed=425s eta=304s
+progress= 59.14% iteration=7100/12006 step=3 epoch=1097/2001 elapsed=433s eta=299s
+progress= 59.97% iteration=7200/12006 step=3 epoch=1197/2001 elapsed=441s eta=294s
+progress= 60.80% iteration=7300/12006 step=3 epoch=1297/2001 elapsed=448s eta=289s
+progress= 61.64% iteration=7400/12006 step=3 epoch=1397/2001 elapsed=456s eta=284s
+progress= 62.47% iteration=7500/12006 step=3 epoch=1497/2001 elapsed=464s eta=279s
+progress= 63.30% iteration=7600/12006 step=3 epoch=1597/2001 elapsed=472s eta=274s
+progress= 64.13% iteration=7700/12006 step=3 epoch=1697/2001 elapsed=480s eta=268s
+progress= 64.97% iteration=7800/12006 step=3 epoch=1797/2001 elapsed=488s eta=263s
+progress= 65.80% iteration=7900/12006 step=3 epoch=1897/2001 elapsed=495s eta=258s
+progress= 66.63% iteration=8000/12006 step=3 epoch=1997/2001 elapsed=503s eta=252s
+progress= 67.47% iteration=8100/12006 step=2 epoch=96/2001 elapsed=512s eta=247s
+progress= 68.30% iteration=8200/12006 step=2 epoch=196/2001 elapsed=522s eta=242s
+progress= 69.13% iteration=8300/12006 step=2 epoch=296/2001 elapsed=530s eta=237s
+progress= 69.97% iteration=8400/12006 step=2 epoch=396/2001 elapsed=540s eta=232s
+progress= 70.80% iteration=8500/12006 step=2 epoch=496/2001 elapsed=549s eta=226s
+progress= 71.63% iteration=8600/12006 step=2 epoch=596/2001 elapsed=558s eta=221s
+progress= 72.46% iteration=8700/12006 step=2 epoch=696/2001 elapsed=567s eta=215s
+progress= 73.30% iteration=8800/12006 step=2 epoch=796/2001 elapsed=576s eta=210s
+progress= 74.13% iteration=8900/12006 step=2 epoch=896/2001 elapsed=585s eta=204s
+progress= 74.96% iteration=9000/12006 step=2 epoch=996/2001 elapsed=594s eta=198s
+progress= 75.80% iteration=9100/12006 step=2 epoch=1096/2001 elapsed=603s eta=193s
+progress= 76.63% iteration=9200/12006 step=2 epoch=1196/2001 elapsed=612s eta=187s
+progress= 77.46% iteration=9300/12006 step=2 epoch=1296/2001 elapsed=622s eta=181s
+progress= 78.29% iteration=9400/12006 step=2 epoch=1396/2001 elapsed=631s eta=175s
+progress= 79.13% iteration=9500/12006 step=2 epoch=1496/2001 elapsed=640s eta=169s
+progress= 79.96% iteration=9600/12006 step=2 epoch=1596/2001 elapsed=650s eta=163s
+progress= 80.79% iteration=9700/12006 step=2 epoch=1696/2001 elapsed=659s eta=157s
+progress= 81.63% iteration=9800/12006 step=2 epoch=1796/2001 elapsed=668s eta=150s
+progress= 82.46% iteration=9900/12006 step=2 epoch=1896/2001 elapsed=677s eta=144s
+progress= 83.29% iteration=10000/12006 step=2 epoch=1996/2001 elapsed=687s eta=138s
+progress= 84.12% iteration=10100/12006 step=1 epoch=95/2001 elapsed=697s eta=132s
+progress= 84.96% iteration=10200/12006 step=1 epoch=195/2001 elapsed=708s eta=125s
+progress= 85.79% iteration=10300/12006 step=1 epoch=295/2001 elapsed=718s eta=119s
+progress= 86.62% iteration=10400/12006 step=1 epoch=395/2001 elapsed=729s eta=113s
+progress= 87.46% iteration=10500/12006 step=1 epoch=495/2001 elapsed=739s eta=106s
+progress= 88.29% iteration=10600/12006 step=1 epoch=595/2001 elapsed=747s eta=99s
+progress= 89.12% iteration=10700/12006 step=1 epoch=695/2001 elapsed=756s eta=92s
+progress= 89.96% iteration=10800/12006 step=1 epoch=795/2001 elapsed=765s eta=85s
+progress= 90.79% iteration=10900/12006 step=1 epoch=895/2001 elapsed=775s eta=79s
+progress= 91.62% iteration=11000/12006 step=1 epoch=995/2001 elapsed=785s eta=72s
+progress= 92.45% iteration=11100/12006 step=1 epoch=1095/2001 elapsed=795s eta=65s
+progress= 93.29% iteration=11200/12006 step=1 epoch=1195/2001 elapsed=805s eta=58s
+progress= 94.12% iteration=11300/12006 step=1 epoch=1295/2001 elapsed=815s eta=51s
+progress= 94.95% iteration=11400/12006 step=1 epoch=1395/2001 elapsed=824s eta=44s
+progress= 95.79% iteration=11500/12006 step=1 epoch=1495/2001 elapsed=833s eta=37s
+progress= 96.62% iteration=11600/12006 step=1 epoch=1595/2001 elapsed=841s eta=29s
+progress= 97.45% iteration=11700/12006 step=1 epoch=1695/2001 elapsed=849s eta=22s
+progress= 98.28% iteration=11800/12006 step=1 epoch=1795/2001 elapsed=858s eta=15s
+progress= 99.12% iteration=11900/12006 step=1 epoch=1895/2001 elapsed=866s eta=8s
+progress= 99.95% iteration=12000/12006 step=1 epoch=1995/2001 elapsed=874s eta=0s
+progress=100.00% iteration=12006/12006 step=1 epoch=2001/2001 elapsed=875s eta=0s
+{
+  "checkpoint": "outputs/checkpoints/1q_clustered_xpu_seed42.pt",
+  "metrics": {
+    "superfidelity": 0.673401951789856,
+    "fidelity": 0.6734018876356945,
+    "trace_distance": 0.4927822993073342,
+    "mmd": 0.4703958034515381,
+    "wasserstein": 0.37821455419063554,
+    "purity_error": 0.09254437685012817,
+    "generated_radius": 0.891638457775116,
+    "target_radius": 0.9954966306686401,
+    "F_data_0": 0.9857447743415833,
+    "F_gen_0": 0.5284357070922852
+  },
+  "history_rows": 12006
+}

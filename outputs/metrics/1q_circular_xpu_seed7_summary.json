@@ -1,0 +1,18 @@
+{
+  "device": "xpu",
+  "real_dtype": "torch.float32",
+  "complex_dtype": "torch.complex64",
+  "checkpoint": "outputs/checkpoints/1q_circular_xpu_seed7.pt",
+  "metrics": {
+    "superfidelity": 0.9840816855430603,
+    "fidelity": 0.9840817813686457,
+    "trace_distance": 0.05229441832283596,
+    "mmd": 0.015762805938720703,
+    "wasserstein": 0.025817331671714776,
+    "purity_error": 0.05904674530029297,
+    "generated_radius": 0.9110087156295776,
+    "target_radius": 0.980293333530426,
+    "F_data_0": 0.4662828743457794,
+    "F_gen_0": 0.5075371265411377
+  }
+}

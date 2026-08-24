@@ -1,0 +1,6 @@
+Workflow completed with 1 child run(s). Return: {
+  "key": "xpu-monitor-continued",
+  "ok": true,
+  "agent": "delegate",
+  "runId": "20a3663b",
+  "output": "# Continued Intel Arc XPU Queue Monitor Report\n\n## Result\n\n**PASS — 6/6 jobs completed.** Queue PID `398681` exited normally after `outputs/logs/paper-xpu-queue.log` recorded `ALL PASS` at `2026-08-14T13:01:15+09:00`. No `FAIL` entry was found. The queue ran from `11:15:39` to `13:01:15` (+09:00), approximately 1h 45m 36s.\n\n## Job results\n\n| Job | Name | Result | Queue elapsed | Final progress | Job log |\n|---:|---|---|---:|---|---|\n| 1/6 | `1q_clustered_xpu_seed42` | PASS | 881s | 12006/12006 (100%) | `outputs/logs/1q_clustered_xpu_seed42.log` |\n| 2/6 | `1q_circular_xpu_seed42` | PASS | 1359s | 12006/12006 (100%) | `outputs/logs/1q_circular_xpu_seed42.log` |\n| 3/6 | `1q_clustered_xpu_seed7` | PASS | 713s | 12006/12006 (100%) | `outputs/logs/1q_clustered_xpu_seed7.log` |\n| 4/6 | `1q_circular_xpu_seed7` | PASS | 1352s | 12006/12006 (100%) | `outputs/logs/1q_circular_ Trace: 2 event(s).
