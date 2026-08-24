@@ -7,8 +7,8 @@ The original MSQuDDPM teacher behavior remains the default. This fork additional
 ## Installation
 
 ```bash
-uv venv --python /opt/homebrew/bin/python3.11
-uv pip install --python .venv/bin/python -e '.[test]'
+uv venv --python 3.11
+uv pip install -e '.[test]'
 ```
 
 `device: auto` selects CUDA, then Intel XPU, Apple MPS, and CPU. CPU/CUDA use `float64/complex128`; XPU/MPS use `float32/complex64` with `atol=2e-5`. Circuit evolution and differentiable losses run on the selected accelerator. Reproducible RNG/sampling, POT's detached transport-plan solve, and detached eigendecomposition diagnostics are CPU control operations. See [`docs/ACCELERATORS.md`](docs/ACCELERATORS.md) for official CUDA/XPU installation, support scope, and exact smoke commands.
@@ -21,24 +21,19 @@ The project does not install a CUDA toolkit itself. Use a server/driver-supporte
 git clone https://github.com/faransansj/Learnable_QuantumNoise_Schedule.git
 cd Learnable_QuantumNoise_Schedule
 
-# Python 3.11 virtual environment
-python3.11 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-
-# Install the CUDA wheel matching the server driver. Example for CUDA 12.8:
-pip install torch --index-url https://download.pytorch.org/whl/cu128
-# Then install this project and tests without asking pip to replace torch.
-pip install -e '.[test]' --no-deps
-pip install 'numpy>=1.26,<2' 'scipy>=1.11,<2' 'matplotlib>=3.8,<4' \
-  'pandas>=2.1,<3' 'pyyaml>=6,<7' 'POT>=0.9,<1' 'pytest>=8,<9'
+# Python 3.11 environment with the CUDA wheel matching the server driver.
+# Example for CUDA 12.8; use --torch-backend=auto to detect it instead.
+uv venv --python 3.11
+uv pip install --torch-backend=cu128 -e '.[test]'
 ```
+
+The accelerator commands use `uv run --no-sync` to preserve the selected PyTorch backend.
 
 Confirm that the GPU is really visible:
 
 ```bash
 nvidia-smi
-python - <<'PY'
+uv run --no-sync python - <<'PY'
 import torch
 print("torch:", torch.__version__)
 print("CUDA available:", torch.cuda.is_available())
@@ -51,25 +46,25 @@ PY
 Run tests and a CUDA smoke training before paper-scale jobs:
 
 ```bash
-pytest -q
-python scripts/train.py --config configs/smoke_clustered_cuda.yaml
-python scripts/train.py --config configs/smoke_circular_cuda.yaml
-python scripts/evaluate.py \
+uv run --no-sync pytest -q
+uv run --no-sync python scripts/train.py --config configs/smoke_clustered_cuda.yaml
+uv run --no-sync python scripts/train.py --config configs/smoke_circular_cuda.yaml
+uv run --no-sync python scripts/evaluate.py \
   --checkpoint outputs/checkpoints/smoke_clustered_cuda.pt --device cuda
 ```
 
 Paper-scale configs use `device: auto`, which selects CUDA on a CUDA server:
 
 ```bash
-python scripts/train.py --config configs/1q_clustered.yaml
-python scripts/train.py --config configs/1q_circular.yaml
+uv run --no-sync python scripts/train.py --config configs/1q_clustered.yaml
+uv run --no-sync python scripts/train.py --config configs/1q_circular.yaml
 ```
 
 For an unattended server job, keep stdout and timing information:
 
 ```bash
 mkdir -p outputs/logs
-nohup /usr/bin/time -v python scripts/train.py --config configs/1q_clustered.yaml \
+nohup /usr/bin/time -v uv run --no-sync python scripts/train.py --config configs/1q_clustered.yaml \
   > outputs/logs/1q_clustered_cuda.log 2>&1 &
 echo $! > outputs/logs/1q_clustered_cuda.pid
 ```
@@ -81,11 +76,11 @@ Paper configs print periodic `progress`, elapsed time, and ETA lines; redirect s
 Native PyTorch XPU is supported without IPEX. Install a current Intel driver and wheel, then verify and run the schedule smoke:
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/xpu
-pip install -e '.[test]' --no-deps
-python scripts/check_accelerator.py --device xpu
-python scripts/train.py --config configs/smoke_schedule_learnable_xpu.yaml
-python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_xpu.pt --device xpu
+uv venv --python 3.11
+uv pip install --torch-backend=xpu -e '.[test]'
+uv run --no-sync python scripts/check_accelerator.py --device xpu
+uv run --no-sync python scripts/train.py --config configs/smoke_schedule_learnable_xpu.yaml
+uv run --no-sync python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_xpu.pt --device xpu
 ```
 
 Arc runs float32/complex64 without AMP/GradScaler. Full dependency commands, official Arc A/B Linux/Windows scope, and honest validation status are in [`docs/ACCELERATORS.md`](docs/ACCELERATORS.md).

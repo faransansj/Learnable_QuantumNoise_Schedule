@@ -11,30 +11,30 @@
 
 ## NVIDIA CUDA
 
-Install the PyTorch wheel matching the server driver from the [PyTorch selector](https://pytorch.org/get-started/locally/), then install this project without replacing Torch:
+Install the PyTorch wheel matching the server driver from the [PyTorch selector](https://pytorch.org/get-started/locally/) through uv:
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/cu128  # example only
-pip install -e '.[test]' --no-deps
-pip install 'numpy>=1.26,<2' 'scipy>=1.11,<2' 'matplotlib>=3.8,<4' 'pandas>=2.1,<3' 'pyyaml>=6,<7' 'POT>=0.9,<1' 'pytest>=8,<9'
-python scripts/check_accelerator.py --device cuda
-python scripts/train.py --config configs/smoke_schedule_learnable_cuda.yaml
-python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_cuda.pt --device cuda
+uv venv --python 3.11
+uv pip install --torch-backend=cu128 -e '.[test]'  # example only; auto also works
+uv run --no-sync python scripts/check_accelerator.py --device cuda
+uv run --no-sync python scripts/train.py --config configs/smoke_schedule_learnable_cuda.yaml
+uv run --no-sync python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_cuda.pt --device cuda
 ```
+
+`--no-sync` preserves the selected accelerator wheel when running commands.
 
 CUDA retains float64/complex128 research precision. GPU FP64 throughput varies.
 
 ## Intel Arc XPU
 
-Install a current Intel GPU driver, then the official native XPU wheel:
+Install a current Intel GPU driver, then the official native XPU wheel through uv:
 
 ```bash
-pip install torch --index-url https://download.pytorch.org/whl/xpu
-pip install -e '.[test]' --no-deps
-pip install 'numpy>=1.26,<2' 'scipy>=1.11,<2' 'matplotlib>=3.8,<4' 'pandas>=2.1,<3' 'pyyaml>=6,<7' 'POT>=0.9,<1' 'pytest>=8,<9'
-python scripts/check_accelerator.py --device xpu
-python scripts/train.py --config configs/smoke_schedule_learnable_xpu.yaml
-python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_xpu.pt --device xpu
+uv venv --python 3.11
+uv pip install --torch-backend=xpu -e '.[test]'
+uv run --no-sync python scripts/check_accelerator.py --device xpu
+uv run --no-sync python scripts/train.py --config configs/smoke_schedule_learnable_xpu.yaml
+uv run --no-sync python scripts/evaluate.py --checkpoint outputs/checkpoints/smoke_schedule_learnable_xpu.pt --device xpu
 ```
 
 Official PyTorch XPU scope currently validates Arc A/B client GPUs on Windows 11 and supported Ubuntu releases. See [Getting Started on Intel GPU](https://docs.pytorch.org/docs/stable/notes/get_start_xpu.html) and [Intel GPU prerequisites](https://www.intel.com/content/www/us/en/developer/articles/tool/pytorch-prerequisites-for-intel-gpu.html). Binary-wheel users need the driver and wheel, not Intel Deep Learning Essentials.
