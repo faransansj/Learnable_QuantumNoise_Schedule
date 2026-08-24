@@ -4,7 +4,7 @@
 |---|---|---|---|
 | CPU | `cpu` | float64 / complex128 | tested |
 | NVIDIA | `cuda` | float64 / complex128 | **unverified** — no NVIDIA hardware available; conditional tests and static checks only |
-| Intel Arc | `xpu` | float32 / complex64 | Arc B580 smoke-tested |
+| Intel Arc | `xpu` | float32 / complex64 | Arc B580 tested (smoke + paper-scale, fixed schedules) |
 | Apple Silicon | `mps` | float32 / complex64 | tested when available |
 
 `device: auto` selects CUDA, then XPU, then MPS, then CPU. Intel support uses native PyTorch XPU; Intel Extension for PyTorch (IPEX) is neither installed nor required.
@@ -45,4 +45,4 @@ Arc uses float32/complex64 because Arc A-series lacks native FP64. Results are l
 
 ## Hybrid execution
 
-The density-matrix circuit, differentiable loss, model parameters, and learnable schedule stay on the selected accelerator. Deterministic dataset/Haar RNG, categorical measurement sampling, POT's detached transport-plan solve, and detached eigendecomposition diagnostics intentionally use CPU. Intel Arc B580 validation used PyTorch `2.13.0+xpu`: accelerator detection and finite complex matmul passed, the full suite reported 21 passed and 2 unavailable-backend skips, and the `smoke_schedule_learnable_xpu` train/evaluate flow completed with valid density matrices. This is smoke evidence, not a paper-scale performance or reproduction claim.
+The density-matrix circuit, differentiable loss, model parameters, and learnable schedule stay on the selected accelerator. Deterministic dataset/Haar RNG, categorical measurement sampling, POT's detached transport-plan solve, and detached eigendecomposition diagnostics intentionally use CPU. Intel Arc B580 validation used PyTorch `2.13.0+xpu`: accelerator detection and finite complex matmul passed, the full suite reported 21 passed and 2 unavailable-backend skips, the `smoke_schedule_learnable_xpu` train/evaluate flow completed with valid density matrices, and a 6-job paper-scale fixed-schedule run (see `docs/VALIDATION_REPORT.md`, 2026-08-14) completed with checksummed artifacts under `outputs/`. A learnable-schedule paper-scale XPU run remains pending. CUDA stays unverified without NVIDIA hardware.

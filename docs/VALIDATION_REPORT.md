@@ -139,6 +139,17 @@ Worst physical residuals over all 27 generated trajectories: Hermiticity `1.41e-
 
 At this reduced scale the learnable schedule matches cosine within seed noise (overlapping ±std), with lower variance than linear. This validates execution, gradient flow, physicality, and statistical bookkeeping across seeds; it is **not** a paper-scale quality claim.
 
-### Pending: paper-scale on Arc B580
+### Paper-scale on Intel Arc B580 — completed 2026-08-14
 
-Paper configs (`configs/1q_clustered.yaml`, `configs/1q_circular.yaml`, `device: auto`) require an Arc B580 machine with the native XPU wheel; exact commands are in the README "Intel Arc XPU" section. Run multi-seed variants there (e.g. copy the seed-config pattern from `configs/*_seed*.yaml`) before any Table-I comparison.
+A full paper-scale XPU run (clustered/circular × seeds {7, 42, 123}, `paper_scale: true`, size=100, T=6, 2001 epochs, Wasserstein loss, cosine schedule, `device: xpu`) completed 6/6 jobs PASS in ~1h 46m on an Arc B580. Artifacts are tracked under `outputs/` (merged from `origin/worker-814-1`, commit 069a05f); all 86 files verify against `outputs/xpu-paper-scale-SHA256SUMS.txt`.
+
+Mean ± std across seeds:
+
+| Dataset | Superfidelity | Trace distance | Wasserstein |
+|---|---|---|---|
+| clustered | 0.6566 ± 0.0135 | 0.5009 ± 0.0143 | 0.3947 ± 0.0159 |
+| circular | 0.9890 ± 0.0036 | 0.0426 ± 0.0071 | 0.0180 ± 0.0057 |
+
+Forward purity decays monotonically from ~0.995 to exactly 0.500 at t=6 in every seed (maximally mixed), confirming physical validity of the diffusion process at scale.
+
+Scope note: these are fixed cosine-schedule baselines. The learnable-vs-fixed comparison at paper scale on XPU is not yet run.
