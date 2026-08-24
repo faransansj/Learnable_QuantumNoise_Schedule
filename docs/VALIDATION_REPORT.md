@@ -98,3 +98,47 @@ The exact cosine-init error before optimization was `0.0`. The learned V0 schedu
 Every learned forward state passed Hermiticity, trace-one, PSD, and purity validation. Worst residuals were Hermiticity `8.98e-19`, trace `4.44e-16`, and minimum eigenvalue `6.60e-05`. The A–D aggregate is `outputs/metrics/smoke_schedule_comparison.csv`; reverse-model parameter count was 8 for every schedule, while trainable schedule counts were 0/0/2/2. Four nonempty figures were generated under `outputs/figures/smoke_schedule_learnable/`.
 
 These `T=2`, six-sample, two-epoch runs validate execution, gradient flow, persistence, fair wiring, physicality, and plotting only. They do not establish generation-quality improvement. The paper-scale `T=6`, 2001-epoch configs were not run.
+
+## Accelerator-Scope Validation — 2026-08-24
+
+Environment: macOS arm64, Python 3.11, PyTorch 2.13.0 (`uv.lock`), numpy 2.5.2, CPU + Apple MPS. Full suite: `22 passed, 2 skipped` (CUDA/XPU conditional tests skip without hardware).
+
+### CUDA status
+
+**Unverified.** No NVIDIA device was available. CUDA paths are covered by conditional tests (auto-skip) and static checks only; real-device behavior and performance are unmeasured. All results in this repository come from CPU or Arc B580 (smoke) runs.
+
+### Numerical accuracy: CPU float64 vs MPS float32
+
+Given one canonical `complex128` clustered dataset and cosine schedule cast per device, the forward diffusion agrees across backends far inside the documented low-precision tolerance `atol=2e-5`:
+
+| t | max abs state difference |
+|---|---:|
+| 0 | 2.95e-08 |
+| 1 | 4.30e-08 |
+| 2 | 7.56e-08 |
+| 3 | 8.82e-08 |
+| 4 | 5.88e-08 |
+| 5 | 5.28e-08 |
+| 6 | 0.0 |
+
+Schedule betas agree to `1.3e-08`. Note: dataset *sampling* is intentionally precision-dependent (float32 and float64 `randn` sequences differ under the same seed), which is why end-to-end trained metrics are backend-local stochastic diagnostics and are not expected to match across devices — the physics pipeline itself does. MPS end-to-end smoke revalidated this session: `smoke_circular_mps` train/evaluate completed with `superfidelity=0.8316`, all trajectory matrices valid.
+
+### Multi-seed fixed vs learnable schedules (reduced CPU scale)
+
+New script `scripts/multiseed_compare.py`; outputs `outputs/metrics/multiseed_runs.csv` and `multiseed_summary.csv`. Settings: clustered, T=6, 50 states, n_ancilla=2, depth=4, MMD loss, 300 epochs, lr=0.01, seeds {7, 42, 123}, device cpu.
+
+Mean ± std across seeds:
+
+| Schedule | Superfidelity | Trace distance | Wasserstein | MMD | All matrices valid |
+|---|---|---|---|---|---|
+| linear | 0.6217 ± 0.0480 | 0.5302 ± 0.0329 | 0.4198 ± 0.0448 | 0.5151 ± 0.1400 | yes (9/9 runs) |
+| cosine | 0.6344 ± 0.0086 | 0.5180 ± 0.0099 | 0.4082 ± 0.0076 | 0.4690 ± 0.0260 | yes (9/9 runs) |
+| learnable | 0.6258 ± 0.0295 | 0.5207 ± 0.0131 | 0.4142 ± 0.0247 | 0.4969 ± 0.0860 | yes (9/9 runs) |
+
+Worst physical residuals over all 27 generated trajectories: Hermiticity `1.41e-15`, trace `2.22e-16`, minimum eigenvalue `0.5` (PSD). Every generated density matrix passed validation at every step.
+
+At this reduced scale the learnable schedule matches cosine within seed noise (overlapping ±std), with lower variance than linear. This validates execution, gradient flow, physicality, and statistical bookkeeping across seeds; it is **not** a paper-scale quality claim.
+
+### Pending: paper-scale on Arc B580
+
+Paper configs (`configs/1q_clustered.yaml`, `configs/1q_circular.yaml`, `device: auto`) require an Arc B580 machine with the native XPU wheel; exact commands are in the README "Intel Arc XPU" section. Run multi-seed variants there (e.g. copy the seed-config pattern from `configs/*_seed*.yaml`) before any Table-I comparison.

@@ -3,7 +3,7 @@
 | Backend | PyTorch device | Precision | Local validation |
 |---|---|---|---|
 | CPU | `cpu` | float64 / complex128 | tested |
-| NVIDIA | `cuda` | float64 / complex128 | conditional test; unavailable on this machine |
+| NVIDIA | `cuda` | float64 / complex128 | **unverified** — no NVIDIA hardware available; conditional tests and static checks only |
 | Intel Arc | `xpu` | float32 / complex64 | Arc B580 smoke-tested |
 | Apple Silicon | `mps` | float32 / complex64 | tested when available |
 
@@ -24,6 +24,8 @@ uv run --no-sync python scripts/evaluate.py --checkpoint outputs/checkpoints/smo
 `--no-sync` preserves the selected accelerator wheel when running commands.
 
 CUDA retains float64/complex128 research precision. GPU FP64 throughput varies.
+
+**Validation status: unverified.** No NVIDIA device was available during development, so CUDA code paths are covered only by conditional tests (skipped without hardware) and static verification. Real-device behavior and performance have not been measured; paper-scale results on this fork come from CPU or Arc B580 runs.
 
 ## Intel Arc XPU
 
